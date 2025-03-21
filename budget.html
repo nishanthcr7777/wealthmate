@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Budget Tracker</title>
+  <link rel="stylesheet" href="hyyy.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Budget Tracker</h1>
+      <p class="subtitle">Press Ctrl + Enter to quickly add entries</p>
+    </header>
+    <section class="input-section">
+      <input type="text" id="expense-description" placeholder="Expense Description">
+      <input type="number" id="expense-amount" placeholder="Expense Amount">
+      <button onclick="addExpense()">Add Expense</button>
+    </section>
+    <section class="input-section">
+      <input type="text" id="income-description" placeholder="Income Description">
+      <input type="number" id="income-amount" placeholder="Income Amount">
+      <button onclick="addIncome()">Add Income</button>
+    </section>
+    <section class="overview-section">
+      <div class="card" id="total-income-card">
+        <h2>Total Income</h2>
+        <p id="total-income">₹0.00</p>
+      </div>
+      <div class="card" id="total-budget-card">
+        <h2>Total Expenses</h2>
+        <p id="total-budget">₹0.00</p>
+      </div>
+      <div class="card" id="balance-card">
+        <h2>Balance</h2>
+        <p id="balance">₹0.00</p>
+      </div>
+    </section>
+    <section class="expense-list">
+      <h2>Recent Expenses</h2>
+      <ul id="expense-list">
+        <!-- Expenses will be dynamically loaded here -->
+      </ul>
+    </section>
+    <section class="income-list">
+      <h2>Recent Incomes</h2>
+      <ul id="income-list">
+        <!-- Incomes will be dynamically loaded here -->
+      </ul>
+    </section>
+    <footer>
+      <p>Made with ❤️ by Smart Wealth</p>
+    </footer>
+  </div>
+  <script src="jsf.js"></script>
+</body>
+</html>

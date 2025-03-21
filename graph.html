@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Financial Graph</title>
+    <link rel="stylesheet" href="hyyy.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Live Financial Tracking</h1>
+            <p class="subtitle">Real-time visualization of your financial data</p>
+        </header>
+
+        <section class="graph-section">
+            <div class="graph-container">
+                <canvas id="financeGraph"></canvas>
+            </div>
+            <div class="graph-controls">
+                <select id="timeRange">
+                    <option value="day">24 Hours</option>
+                    <option value="week">Week</option>
+                    <option value="month">Month</option>
+                    <option value="year">Year</option>
+                </select>
+                <select id="dataType">
+                    <option value="balance">Balance</option>
+                    <option value="income">Income</option>
+                    <option value="expenses">Expenses</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="stats-section">
+            <div class="stat-card">
+                <h3>Current Balance</h3>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script src="graph.js"></script>
+                <p id="currentBalance">₹0.00</p>
+            </div>
+            <div class="stat-card">
+                <h3>Today's Change</h3>
+                <p id="todayChange">+₹0.00</p>
+            </div>
+            <div class="stat-card">
+                <h3>Trend</h3>
+                <p id="trend">Stable</p>
+            </div>
+        </section>
+    </div>
+
+    <script src="jsf.js"></script>
+</body>
+</html>

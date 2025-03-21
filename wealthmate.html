@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WealthMate - Your Smart Financial Companion</title>
+    <link rel="stylesheet" href="smart121.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <button class="theme-switch" id="themeSwitch">
+        <i class="fas fa-moon"></i>
+    </button>
+    <div class="sidebar" id="sidebar">
+        <button id="sidebarToggle" class="sidebar-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="sidebar-section">
+            <a href="#" class="sidebar-link" onclick="redirectToPage('budget')">
+                <h3><i class="fas fa-chart-pie"></i> Budget Tracker</h3>
+            </a>
+        </div>
+        
+        <div class="sidebar-section">
+            <a href="#" class="sidebar-link" onclick="redirectToPage('graph')">
+                <h3><i class="fas fa-chart-line"></i> Live Graph</h3>
+            </a>
+        </div>
+        
+        <div class="sidebar-section">
+            <a href="#" class="sidebar-link" onclick="redirectToPage('ai-assistant')">
+                <h3><i class="fas fa-robot"></i> AI Assistant</h3>
+            </a>
+        </div>
+        
+        <div class="sidebar-section">
+            <a href="#" class="sidebar-link" onclick="redirectToPage('investment-portfolio')">
+                <h3><i class="fas fa-chart-pie"></i> Investment Portfolio</h3>
+            </a>
+        </div>
+    </div>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#bank-cards">Cards</a></li>
+                <li><a href="#investing">Investing</a></li>
+                <li><a href="#ai-planner">AI Planner</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button id="loginBtn" class="login-btn" onclick="window.location.href='login.html'" data-loading="false">Login</button>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Smart Financial Management at Your Fingertips</h1>
+            <p>Track, invest, and grow your wealth with AI-powered insights</p>
+            <div class="download-buttons">
+                <button id="appStoreBtn" class="app-store" data-loading="false">Download on App Store</button>
+                <button id="googlePlayBtn" class="google-play" data-loading="false">Get it on Google Play</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="feature">
+            <span class="icon green"><i class="fas fa-chart-line"></i></span>
+            <h3>Smart Tracking</h3>
+            <p>Real-time monitoring of your accounts and investments</p>
+        </div>
+        <div class="feature">
+            <span class="icon pink"><i class="fas fa-robot"></i></span>
+            <h3>AI Insights</h3>
+            <p>Personalized financial advice powered by AI</p>
+        </div>
+        <div class="feature">
+            <span class="icon blue"><i class="fas fa-shield-alt"></i></span>
+            <h3>Secure Banking</h3>
+            <p>Bank-grade security for your peace of mind</p>
+        </div>
+    </section>
+
+    <section id="bank-cards" class="bank-cards">
+        <h2>Your Cards</h2>
+        <div class="cards">
+            <div class="card">
+                <h4>Savings Account</h4>
+                <span class="balance">$12,450</span>
+                <button class="details-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="card">
+                <h4>Investment Portfolio</h4>
+                <span class="balance">$45,750</span>
+                <button class="details-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <section id="investing" class="investing">
+        <h2>Smart Investment Options</h2>
+        <div class="investment-options">
+            <div class="investment">
+                <h3>Stocks</h3>
+                <p>Curated selection of high-potential stocks</p>
+            </div>
+            <div class="investment">
+                <h3>Crypto</h3>
+                <p>Secure cryptocurrency investment options</p>
+            </div>
+            <div class="investment">
+                <h3>ETFs</h3>
+                <p>Diversified exchange-traded funds</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="ai-planner" class="ai-planner">
+        <h2>AI Budget Planner</h2>
+        <div class="ai-content">
+            <div class="ai-budget-box">
+                <h3>Smart Budget Tracking</h3>
+                <p>Let our AI analyze your spending patterns and create personalized budgets</p>
+                <button id="trackBudgetBtn" onclick="redirectToBudget()">Track My Budget</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-form">
+        <h2>Get in Touch</h2>
+        <form onsubmit="event.preventDefault(); submitForm();">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+            <button type="submit" data-loading="false">Send Message</button>
+        </form>
+    </section>
+
+    <script src="smart2.js"></script>
+</body>
+</html>
