@@ -13,7 +13,7 @@
             <h2>Welcome Back</h2>
             <form id="loginForm" onsubmit="event.preventDefault(); handleLogin();">
                 <div class="input-group">
-                    <i class="fas fa-user"></i>
+                    <i class="fas fa-envelope"></i>
                     <input type="email" id="loginEmail" placeholder="Email" required>
                 </div>
                 <div class="input-group">
@@ -34,6 +34,41 @@
             </form>
         </div>
     </div>
-    <script src="smart2.js"></script>
+    <script>
+        async function handleLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            try {
+                const response = await fetch('http://localhost:3000/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Store token based on remember me choice
+                    if (rememberMe) {
+                        localStorage.setItem('token', data.token);
+                    } else {
+                        sessionStorage.setItem('token', data.token);
+                    }
+                    
+                    // Redirect to profile page instead of main page
+                    window.location.href = 'profile.html';
+                } else {
+                    alert(data.message || 'Login failed');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('An error occurred during login');
+            }
+        }
+    </script>
 </body>
 </html>

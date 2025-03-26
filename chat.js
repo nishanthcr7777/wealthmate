@@ -83,8 +83,7 @@ async function processMessage(userMessage) {
 }
 
 // API Configuration
-const API_KEY = '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'; // Replace with your actual API key
-const API_URL = 'https://api.openai.com/v1/chat/completions';
+const API_URL = 'http://localhost:3000/api/chat'; // Updated to use backend proxy
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000; // 1 second
 
@@ -100,23 +99,11 @@ async function getAIResponse(userMessage) {
             const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${API_KEY}`
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    model: 'gpt-3.5-turbo',
-                    messages: [
-                        {
-                            role: 'system',
-                            content: 'You are WealthMate, a knowledgeable financial advisor AI assistant. Provide helpful, accurate, and concise financial advice.'
-                        },
-                        {
-                            role: 'user',
-                            content: userMessage
-                        }
-                    ],
-                    temperature: 0.7,
-                    max_tokens: 150
+                    message: userMessage,
+                    context: 'You are WealthMate, a knowledgeable financial advisor AI assistant. Provide helpful, accurate, and concise financial advice.'
                 })
             });
 
