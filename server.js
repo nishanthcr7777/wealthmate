@@ -3,22 +3,23 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const path = require('path');
-const userRoutes = require('./routes/userRoutes');
-const transactionRoutes = require('./routes/transactionRoutes');
-const chatRoutes = require('./routes/chatRoutes');
+require('dotenv').config();
 
 const app = express();
-const PORT = 3000;
-const JWT_SECRET = 'your-secret-key';
+const PORT = process.env.PORT || 5000;
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-// Routes
-app.use('/api/users', userRoutes);
-app.use('/api/transactions', transactionRoutes);
-app.use('/api', chatRoutes);
+// Disable caching to ensure updates are visible in Replit
+app.use((req, res, next) => {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    next();
+});
 
 // Serve static files
 app.use(express.static(path.join(__dirname)));
@@ -85,8 +86,6 @@ app.post('/api/login', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
-
-// Add this after your existing routes
 
 app.get('/profile', (req, res) => {
     res.sendFile(path.join(__dirname, 'profile.html'));
@@ -204,11 +203,10 @@ app.post('/api/accounts/link', verifyToken, async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
-
-// Add this with other routes
 app.get('/budget', (req, res) => {
     res.sendFile(path.join(__dirname, 'budget.html'));
+});
+
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on http://0.0.0.0:${PORT}`);
 });

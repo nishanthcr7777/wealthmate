@@ -83,7 +83,7 @@ async function processMessage(userMessage) {
 }
 
 // API Configuration
-const API_URL = 'http://localhost:3000/api/chat'; // Updated to use backend proxy
+const API_URL = '/api/chat'; // Updated to use backend proxy
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000; // 1 second
 
