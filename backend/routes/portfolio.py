@@ -4,7 +4,7 @@ from typing import List
 from backend.database import get_db
 from backend.models.user import User
 from backend.models.portfolio import Portfolio, Stock
-from backend.schemas.portfolio import StockCreate, Stock as StockSchema, StockPrice
+from backend.schemas.portfolio import StockCreate, Stock as StockSchema, StockPrice, StockUpdate
 from backend.services.auth import get_current_user
 from backend.services.stock_service import get_stock_price, get_stock_historical_data, get_stock_info
 from backend.services.portfolio_service import calculate_portfolio_performance, calculate_stock_profit_loss
@@ -100,3 +100,37 @@ async def get_stock_pl(
     
     pl_data = calculate_stock_profit_loss(stock)
     return pl_data
+
+@router.put("/stock/{stock_id}")
+async def update_stock(
+    stock_id: int,
+    update: StockUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    stock = db.query(Stock).filter(Stock.id == stock_id).first()
+    if not stock:
+        raise HTTPException(status_code=404, detail="Stock not found")
+    portfolio = db.query(Portfolio).filter(Portfolio.id == stock.portfolio_id).first()
+    if portfolio.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Unauthorized")
+    stock.shares = update.shares
+    stock.purchase_price = update.purchase_price
+    db.commit()
+    return {"message": "Stock updated"}
+
+@router.delete("/stock/{stock_id}")
+async def delete_stock(
+    stock_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    stock = db.query(Stock).filter(Stock.id == stock_id).first()
+    if not stock:
+        raise HTTPException(status_code=404, detail="Stock not found")
+    portfolio = db.query(Portfolio).filter(Portfolio.id == stock.portfolio_id).first()
+    if portfolio.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Unauthorized")
+    db.delete(stock)
+    db.commit()
+    return {"message": "Stock deleted"}

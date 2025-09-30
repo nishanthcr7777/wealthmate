@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WealthMate - User Profile</title>
+    <link rel="stylesheet" href="smart121.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-box">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <i class="fas fa-user-circle fa-5x"></i>
+                </div>
+                <h2>My Profile</h2>
+            </div>
+            <form id="profileForm" onsubmit="event.preventDefault(); updateProfile();">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="fullName" placeholder="Full Name" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="profileEmail" readonly>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-phone"></i>
+                    <input type="tel" id="phone" placeholder="Phone Number">
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <input type="text" id="location" placeholder="Location">
+                </div>
+                <div class="profile-stats">
+                    <div class="stat">
+                        <span class="stat-label">Total Balance</span>
+                        <span class="stat-value">$58,200</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Investments</span>
+                        <span class="stat-value">$45,750</span>
+                    </div>
+                </div>
+                <button type="submit" class="profile-submit-btn">Update Profile</button>
+            </form>
+            <button onclick="logout()" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is logged in
+        function checkAuth() {
+            const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+            }
+            return token;
+        }
+
+        // Load user profile
+        async function loadProfile() {
+            const token = checkAuth();
+            const email = JSON.parse(atob(token.split('.')[1])).email;
+            document.getElementById('profileEmail').value = email;
+        }
+
+        // Update profile
+        async function updateProfile() {
+            const token = checkAuth();
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                phone: document.getElementById('phone').value,
+                location: document.getElementById('location').value
+            };
+
+            try {
+                const response = await fetch('/api/profile/update', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    alert('Profile updated successfully!');
+                } else {
+                    alert('Failed to update profile');
+                }
+            } catch (error) {
+                console.error('Profile update error:', error);
+                alert('An error occurred while updating profile');
+            }
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('token');
+            sessionStorage.removeItem('token');
+            window.location.href = 'login.html';
+        }
+
+        // Load profile when page loads
+        window.onload = loadProfile;
+    </script>
+</body>
+</html>

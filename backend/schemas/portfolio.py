@@ -46,3 +46,21 @@ class StockPrice(BaseModel):
     day_high: float
     day_low: float
     volume: int
+
+class StockUpdate(BaseModel):
+    shares: float
+    purchase_price: float
+
+class Transaction(BaseModel):
+    id: int
+    stock_id: int
+    transaction_type: str
+    shares: float
+    price: float
+    transaction_date: datetime
+
+    class Config:
+        from_attributes = True
+
+class TransactionList(BaseModel):
+    transactions: List[Transaction]

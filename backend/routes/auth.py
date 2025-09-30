@@ -3,7 +3,8 @@ from sqlalchemy.orm import Session
 from backend.database import get_db
 from backend.models.user import User
 from backend.schemas.user import UserCreate, UserLogin, Token
-from backend.services.auth import get_password_hash, verify_password, create_access_token
+from backend.services.auth import get_password_hash, verify_password, create_access_token, create_refresh_token, decode_token
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 router = APIRouter(prefix="/api", tags=["auth"])
 
@@ -34,4 +35,20 @@ async def login(user: UserLogin, db: Session = Depends(get_db)):
         )
     
     access_token = create_access_token({"email": db_user.email})
-    return {"token": access_token, "token_type": "bearer"}
+    refresh_token = create_refresh_token({"email": db_user.email})
+    return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer"}
+
+security = HTTPBearer()
+
+@router.post("/refresh", response_model=Token)
+async def refresh_token(
+    credentials: HTTPAuthorizationCredentials = Depends(security)
+):
+    refresh_token = credentials.credentials
+    payload = decode_token(refresh_token)
+    if payload is None or payload.get("type") != "refresh":
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid refresh token")
+    email = payload.get("email")
+    new_access = create_access_token({"email": email})
+    new_refresh = create_refresh_token({"email": email})
+    return {"access_token": new_access, "refresh_token": new_refresh, "token_type": "bearer"}
